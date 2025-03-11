@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <array>
 
 #include "lsl_cpp.h"
 
