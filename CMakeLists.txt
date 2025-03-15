@@ -17,50 +17,35 @@ include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 include(cmake/CPM.cmake)
 
-CPMAddPackage(lsl
+CPMAddPackage(NAME lsl
         VERSION 1.16.2
         GITHUB_REPOSITORY sccn/liblsl
 )
 
-
-# ---- Declare library ----
-
-#add_library(
-#    lsl_examples_lib OBJECT
-#    src/lib.cpp
-#)
-
-#target_include_directories(
-#    lsl_examples_lib ${warning_guard}
-#    PUBLIC
-#    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>"
-#)
-
-#target_compile_features(lsl_examples_lib PUBLIC cxx_std_17)
+if(lsl_ADDED)
+  set_target_properties(lsl PROPERTIES
+    INCLUDE_DIRECTORIES ${lsl_SOURCE_DIR}/include
+  )
+endif()
 
 # ---- Declare executable ----
 
 add_executable(lsl_ostream src/ostream.cpp)
-
 target_compile_features(lsl_ostream PRIVATE cxx_std_17)
-target_include_directories(lsl_ostream PRIVATE ${liblsl_SOURCE_DIR}/include)
 target_link_libraries(lsl_ostream PRIVATE lsl)
 
 add_executable(lsl_markers src/markers.cpp)
 target_compile_features(lsl_markers PRIVATE cxx_std_17)
-target_include_directories(lsl_markers PRIVATE ${liblsl_SOURCE_DIR}/include)
 target_link_libraries(lsl_markers PRIVATE lsl)
 
 #
 add_executable(lsl_istream src/istream.cpp)
 target_compile_features(lsl_istream PRIVATE cxx_std_17)
-target_include_directories(lsl_istream PRIVATE ${liblsl_SOURCE_DIR}/include)
 target_link_libraries(lsl_istream PRIVATE lsl)
 
 #
 add_executable(lsl_pipe src/pipe.cpp)
 target_compile_features(lsl_pipe PRIVATE cxx_std_17)
-target_include_directories(lsl_pipe PRIVATE ${liblsl_SOURCE_DIR}/include)
 target_link_libraries(lsl_pipe PRIVATE lsl)
 
 # ---- Install rules ----
